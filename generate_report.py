@@ -29,11 +29,11 @@ def generate_pdf(logs, output_path='log_report.pdf', template_path='template.htm
         for log in logs:
             anomalies_html += f"""
             <tr class="highlight">
-                <td>{log.get('IP Address', '')}</td>
-                <td>{log.get('Time Stamp', '')}</td>
-                <td class="requested-file-path">{log.get('Requested File Path', '')}</td>
-                <td>{log.get('Status Code', '')}</td>
-                <td>{log.get('Anomaly Type', '')}</td>
+                <td>{log.get('IP_Address', '')}</td>
+                <td>{log.get('Time_Stamp', '')}</td>
+                <td class="requested-file-path">{log.get('Requested_File_Path', '')}</td>
+                <td>{log.get('Status_Code', '')}</td>
+                <td>{log.get('Prediction', '')}</td>
             </tr>
             """
 
