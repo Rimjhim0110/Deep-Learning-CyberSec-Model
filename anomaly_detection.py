@@ -1,12 +1,12 @@
 import re
 
 def mark_unusual_http_method(data):
-    return 'Unusual HTTP Method' if data['Possible Anomaly'] and data['HTTP Method'] not in ['GET', 'POST'] else ''
+    return 'Unusual HTTP Method' if data['Possible_Anomaly'] and data['HTTP_Method'] not in ['GET', 'POST'] else ''
 
 def detect_unusual_traffic(data):
     data = data.sort_values('Time Stamp')
-    data['Request Count'] = data.groupby(['IP Address', 'Time Stamp']).cumcount() + 1
-    return 'Unusual Traffic' if data['Request Count'] > 15 and data['Anomaly Type'] == '' else ''
+    data['Request_Count'] = data.groupby(['IP_Address', 'Time_Stamp']).cumcount() + 1
+    return 'Unusual Traffic' if data['Request_Count'] > 15 and data['Anomaly_Type'] == '' else ''
 
 def detect_sql_injection(row):
     patterns = {
@@ -16,7 +16,7 @@ def detect_sql_injection(row):
         'Boolean-based Blind SQL Injection; ': r'\b(TRUE\b|\bFALSE\b|\bAND\b|\bOR\b|\bNOT\b)',
         'Tautology-based SQL Injection; ': r'\b\d+\s*=\s*\d+\b',
     }
-    return 'SQL Injection' if any(re.search(pattern, row['Requested File Path']) or re.search(pattern, row['User Agent']) for pattern in patterns.values()) else ''
+    return 'SQL Injection' if any(re.search(pattern, row['Requested_File_Path']) or re.search(pattern, row['User_Agent']) for pattern in patterns.values()) else ''
 
 def detect_random_attacks(row):
     patterns = {
@@ -25,15 +25,17 @@ def detect_random_attacks(row):
         'Unauthorized Access Attempts': r'/login',
         'Open Redirect': r'\?redirect=http://malicious-site.com',
     }
-    return 'Random Attack' if any(re.search(pattern, row['Requested File Path']) or re.search(pattern, row['User Agent']) for pattern in patterns.values()) else ''
+    return 'Random Attack' if any(re.search(pattern, row['Requested_File_Path']) or re.search(pattern, row['User_Agent']) for pattern in patterns.values()) else ''
 
 def label_data(df):
-    """Label anomalies in the dataset."""    
-    df['Anomaly Type'] = df.apply(detect_random_attacks, axis=1)
-    df['Anomaly Type'] = df.apply(detect_sql_injection, axis=1)
-    df['Anomaly Type'] = df.apply(detect_unusual_traffic, axis=1)
-    df['Anomaly Type'] = df.apply(mark_unusual_http_method, axis=1)
+    """Label anomalies in the dataset."""  
+    df['Possible_Anomaly'] = df['Status_Code'].astype(int).apply(lambda x: False if x < 300 else True)
 
-    df['Anomaly Type'].replace('', 'Valid Request', inplace=True)
+    df['Anomaly_Type'] = df.apply(detect_random_attacks, axis=1)
+    df['Anomaly_Type'] = df.apply(detect_sql_injection, axis=1)
+    df['Anomaly_Type'] = df.apply(detect_unusual_traffic, axis=1)
+    df['Anomaly_Type'] = df.apply(mark_unusual_http_method, axis=1)
+
+    df['Anomaly_Type'].replace('', 'Valid Request', inplace=True)
 
     return df
