@@ -40,13 +40,13 @@ def save_results_to_csv(df, output_file='result.csv'):
 
 if __name__ == "__main__":
     # Add path to your .txt file
-    file_path = '/content/drive/MyDrive/model/server_logs.txt'
+    file_path = 'server_logs_bhuvan_dataset.txt'
 
     # Load and preprocess data
     df = load_and_preprocess_data(file_path)
 
     # Add the paths where the model, tokenizer, and label_encoder get saved
-    model_path = '/content/model.h5'
+    model_path = 'model.h5'
     tokenizer_path = 'tokenizer.pkl'
     label_encoder_path = 'label_encoder.pkl'
 
