@@ -1,7 +1,7 @@
 import pickle
-from label_data import label_data
 from keras.models import Sequential
 from keras.utils import to_categorical
+from anomaly_detection import label_data
 from keras.callbacks import ModelCheckpoint
 from sklearn.preprocessing import LabelEncoder
 from keras.preprocessing.text import Tokenizer
