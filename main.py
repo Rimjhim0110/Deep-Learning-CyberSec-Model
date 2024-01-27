@@ -69,7 +69,7 @@ def train_model(df):
 
 if __name__ == "__main__":
     # Add path to the .txt file
-    file_path = '/content/drive/MyDrive/model/server_logs.txt'  
+    file_path = 'server_logs.txt'  
 
     # Read and preprocess the DataFrame
     df = read_log_file(file_path)
@@ -77,4 +77,3 @@ if __name__ == "__main__":
     
     # Train the model and save it
     train_model(df)
-  
