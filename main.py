@@ -12,7 +12,7 @@ from log_processing import read_log_file, handle_missing_data
 
 def split_data(df, tokenizer):
     """Split data into training and testing sets."""
-    X_train_log, X_test_log, y_train, y_test = train_test_split(df['log'], to_categorical(df['Anomaly Type']), test_size=0.2, random_state=42)
+    X_train_log, X_test_log, y_train, y_test = train_test_split(df['log'], to_categorical(df['Anomaly_Type']), test_size=0.2, random_state=42)
 
     X_train = tokenizer.texts_to_sequences(X_train_log)
     X_train = pad_sequences(X_train)
@@ -28,7 +28,7 @@ def train_model(df):
 
     # Encode the 'Anomaly Type' column
     label_encoder = LabelEncoder()
-    df['Anomaly Type'] = label_encoder.fit_transform(df['Anomaly Type'])
+    df['Anomaly_Type'] = label_encoder.fit_transform(df['Anomaly_Type'])
 
     # Tokenize the 'log' column
     tokenizer = Tokenizer()
