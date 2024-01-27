@@ -28,9 +28,7 @@ def detect_random_attacks(row):
     return 'Random Attack' if any(re.search(pattern, row['Requested File Path']) or re.search(pattern, row['User Agent']) for pattern in patterns.values()) else ''
 
 def label_data(df):
-    """Label anomalies in the dataset."""
-    df['Possible Anomaly'] = df['Status Code'].astype(int).apply(lambda x: False if x < 300 else True)
-    
+    """Label anomalies in the dataset."""    
     df['Anomaly Type'] = df.apply(detect_random_attacks, axis=1)
     df['Anomaly Type'] = df.apply(detect_sql_injection, axis=1)
     df['Anomaly Type'] = df.apply(detect_unusual_traffic, axis=1)
