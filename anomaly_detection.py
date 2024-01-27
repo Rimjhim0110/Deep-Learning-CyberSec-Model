@@ -4,7 +4,6 @@ def mark_unusual_http_method(data):
     return 'Unusual HTTP Method' if data['Possible_Anomaly'] and data['HTTP_Method'] not in ['GET', 'POST'] else ''
 
 def detect_unusual_traffic(data):
-    data = data.sort_values('Time_Stamp', axis=1)
     data['Request_Count'] = data.groupby(['IP_Address', 'Time_Stamp']).cumcount() + 1
     return 'Unusual Traffic' if data['Request_Count'] > 15 and data['Anomaly_Type'] == '' else ''
 
